@@ -1,58 +1,67 @@
 import streamlit as st
 
-# Placeholder for user database
-users = {
+# Initialize session state for user database if it doesn't exist
+if 'users' not in st.session_state:
+    st.session_state['users'] = {
     "solomon": "solomon1",
     "oladiran": "oladiran1",
     "robel": "robel1"
 }
 
-def login_page():
-    """Function to display the login page and handle user authentication."""
-    # Using session state to store user login status
-    if 'authenticated' not in st.session_state:
-        st.session_state['authenticated'] = False
-    
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    
-    if st.button("Login"):
-        if username in users and users[username] == password:
-            st.session_state['authenticated'] = True
-            st.session_state['username'] = username  # Store the username in session state
-        else:
-            st.error("Incorrect Username/Password")
-    
-    return st.session_state['authenticated']
+def show_login_signup():
+    """Function to display login and signup options."""
+    st.title("Vireo - Sign In or Sign Up")
+
+    # Tabs for Login and Signup
+    tab1, tab2 = st.tabs(["Login", "Sign Up"])
+
+    with tab1:
+        st.header("Login")
+        username_login = st.text_input("Username", key="login_username")
+        password_login = st.text_input("Password", type="password", key="login_password")
+        
+        if st.button("Login"):
+            if username_login in st.session_state.users and st.session_state.users[username_login] == password_login:
+                st.session_state['authenticated'] = True
+                st.session_state['username'] = username_login
+                st.experimental_rerun()
+            else:
+                st.error("Incorrect Username/Password")
+
+    with tab2:
+        st.header("Sign Up")
+        username_signup = st.text_input("Choose a Username", key="signup_username")
+        password_signup = st.text_input("Choose a Password", type="password", key="signup_password")
+        
+        if st.button("Sign Up"):
+            if username_signup in st.session_state.users:
+                st.error("Username already exists. Please choose a different username.")
+            elif username_signup and password_signup:
+                # Add the new user to the "database"
+                st.session_state.users[username_signup] = password_signup
+                st.success("You have successfully signed up. Please log in with your new credentials.")
+            else:
+                st.error("Username and password cannot be empty.")
 
 def main_app():
-    """Function to display the main app content after successful login."""
+    """Display the main application after successful login."""
     st.sidebar.title("Navigation")
     page = st.sidebar.radio("Go to", ["Home", "Environmental Impact Dashboard", "Carbon Footprint Calculator", "Contributions Page"])
     
     if page == "Home":
         st.title(f"Welcome to Vireo, {st.session_state['username']}!")
         st.write("Explore our features to start making a difference!")
-        st.map()
-    if page == 'Environmental Impact Dashboard':
-        st.title('Env page')
-    if page == 'Carbon Footprint Calculator':
-        st.title('Carb page') 
-    if page == 'Contributions Page':
-        st.title('Contri page')
-
-    # Implement other pages following the similar pattern
+    # Implement other pages here based on the project requirements
 
 def main():
-    """Main function to initialize the app."""
-    if 'authenticated' not in st.session_state or not st.session_state['authenticated']:
-        st.title("Vireo Login")
-        authenticated = login_page()
-        if authenticated:
-            # Clear the login page
-            st.experimental_rerun()
-    else:
+    """Main function to manage app flow based on login status."""
+    if 'authenticated' not in st.session_state:
+        st.session_state['authenticated'] = False
+
+    if st.session_state['authenticated']:
         main_app()
+    else:
+        show_login_signup()
 
 if __name__ == "__main__":
     main()
