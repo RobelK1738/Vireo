@@ -2,8 +2,9 @@ import streamlit as st
 
 # Placeholder for user database
 users = {
-    "user1": "password1",
-    "user2": "password2",
+    "solomon": "solomon1",
+    "oladiran": "oladiran1",
+    "robel": "robel1"
 }
 
 def login_page():
