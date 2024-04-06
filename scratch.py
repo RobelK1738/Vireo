@@ -1,1 +1,1 @@
-print('VIREO')
+print('VIDEO')
