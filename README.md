@@ -1,2 +1,9 @@
 # Team-29-Playground
-Vireo playground
+
+To run the program, copy paste the following:
+
+```
+
+streamlit run scratch.py
+
+```
