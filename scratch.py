@@ -49,7 +49,7 @@ def main_app():
     page = st.sidebar.radio("Go to", ["Home", "Environmental Impact Dashboard", "Carbon Footprint Calculator", "Contributions Page"])
     
     if page == "Home":
-        st.title(f"Welcome to Vireo, {st.session_state['username']}!")
+        st.title(f"Welcome to Vireo, {(st.session_state['username'][0]).upper()}{st.session_state['username'][1:]}!")
         st.write("Explore our features to start making a difference!")
     # Implement other pages here based on the project requirements
 
