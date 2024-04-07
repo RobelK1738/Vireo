@@ -178,6 +178,21 @@ def home_page():
     if st.button('Show Environmental Data'):
         data = fetch_environmental_data(loc_data["lat"], loc_data["lon"])
         st.write(data)
+def display_footer():
+    """Display the footer section with contact and social media information."""
+    footer_html = """
+    <hr style="border-top: 2px solid #bbb;">
+    <div style="text-align: center; padding: 10px;">
+        <p>Get in Touch:</p>
+        <a href="https://www.twitter.com/yoursoftware" target="_blank">Twitter</a> | 
+        <a href="https://www.facebook.com/yoursoftware" target="_blank">Facebook</a> | 
+        <a href="https://www.instagram.com/yoursoftware" target="_blank">Instagram</a>
+        <br>
+        <img src="URL_TO_YOUR_LOGO" style="width: 100px; margin-top: 10px;">
+        <p>Contact Us: <a href="mailto:contact@yoursoftware.com">contact@yoursoftware.com</a></p>
+    </div>
+    """
+    st.markdown(footer_html, unsafe_allow_html=True)
 
 def main_app():
     """Display the main application after successful login."""
@@ -189,7 +204,7 @@ def main_app():
         carbon_footprint_calculator()
     with tab3:
         contributions_page()
-    # Additional pages would go here...
+    display_footer()
 
 def main():
     """Main function to manage app flow based on login status."""
