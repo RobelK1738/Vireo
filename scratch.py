@@ -99,7 +99,7 @@ if 'users' not in st.session_state:
 # Sample locations dictionary remains unchanged
 def firstDataRow(cardiox, climate):
     col1, col2= st.columns(2)
-    col1.metric("Carbon Dioxied Emissions", f"{cardiox}", 0.134, delta_color="inverse")
+    col1.metric("Carbon Dioxide Emissions", f"{cardiox}", 0.134, delta_color="inverse")
     col2.metric("Scenery", f"{climate}")
     
 def secDataRow(airq, temp):
@@ -324,7 +324,7 @@ def display_footer():
     st.markdown(footer_html, unsafe_allow_html=True)
 
 def home_page():
-    st.title(f"Welcome to Vireo, {st.session_state['username']}!")
+    st.title(f"Welcome to Vireo, {(st.session_state['username'][0]).upper()}{st.session_state['username'][1:]}!")
     st.write("Select a location to see environmental data.")
 
     # Dropdown for selecting a location
