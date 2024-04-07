@@ -111,7 +111,7 @@ def main_app():
     page = st.sidebar.radio("Go to", ["Home", "Environmental Impact Dashboard", "Carbon Footprint Calculator", "Contributions Page"])
     
     if page == "Home":
-        st.title(f"Welcome to Vireo, {st.session_state['username']}!")
+        st.title(f"Welcome to Vireo, {(st.session_state['username'][0]).upper()}{st.session_state['username'][1:]}!")
         st.write("Select a location to see environmental data.")
 
         # Dropdown for selecting a location
