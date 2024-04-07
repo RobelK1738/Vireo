@@ -105,7 +105,6 @@ def carbon_footprint_calculator():
         st.session_state['carbon_footprint_result'] = "Your estimated carbon footprint is XX metric tons of CO2 per year."
         st.write(st.session_state['carbon_footprint_result'])
 
-
 def contributions_page():
     """Display the Contributions page for event creation and participation."""
     st.title("Contributions")
@@ -153,10 +152,12 @@ def contributions_page():
 def main_app():
     """Display the main application after successful login."""
     st.sidebar.title("Navigation")
-    page = st.sidebar.selectbox("Go to", ["Home", "Carbon Footprint Calculator", "Contributions Page"])
-    
-    if page == "Home":
-        st.title(f"Welcome to Vireo, {st.session_state['username']}!")
+    # page = st.sidebar.radio("Go to", ["Home", "Environmental Impact Dashboard", "Carbon Footprint Calculator", "Contributions Page"])
+    home, tab2, tab3 = st.tabs(["Home", "Carbon Footprint Calculator", "Contributions Page"])
+
+
+    with home:
+        st.title(f"Welcome to Vireo, {(st.session_state['username'][0]).upper()}{st.session_state['username'][1:]}!")
         st.write("Select a location to see environmental data.")
 
         # Dropdown for selecting a location
@@ -176,10 +177,11 @@ def main_app():
         if st.button('Show Environmental Data'):
             data = fetch_environmental_data(loc_data["lat"], loc_data["lon"])
             st.write(data)
-    elif page == "Carbon Footprint Calculator":
+    with tab2:
         carbon_footprint_calculator()
-    elif page == "Contributions Page":
+    with tab3:
         contributions_page()
+    # Additional pages would go here...
 
 def main():
     """Main function to manage app flow based on login status."""
