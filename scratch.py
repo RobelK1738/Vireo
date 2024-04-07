@@ -49,11 +49,17 @@ sample_locations = {
 
 
 def fetch_environmental_data(lat, lon):
+    placeholder = 'Placeholder'
     """Fetch environmental data for the given latitude and longitude."""
     # Placeholder for actual data fetching logic
     return f'''Environmental data for Latitude: {lat}, Longitude: {lon}
-- Climate: Placeholder
-- Air Quality: Placeholder'''
+- Climate: {placeholder}
+- Weather: {placeholder}
+- Total CO2 Emissions: {placeholder}
+- Air Quality: {placeholder}
+- Sustainability: (Graph) {placeholder}
+- Electricity: {placeholder}
+- '''
 
 def show_login_signup():
     """Function to display login and signup options."""
