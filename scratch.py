@@ -105,13 +105,58 @@ def carbon_footprint_calculator():
         st.session_state['carbon_footprint_result'] = "Your estimated carbon footprint is XX metric tons of CO2 per year."
         st.write(st.session_state['carbon_footprint_result'])
 
+
+def contributions_page():
+    """Display the Contributions page for event creation and participation."""
+    st.title("Contributions")
+
+    # Simulated event storage (would be a database in a real app)
+    if 'events' not in st.session_state:
+        st.session_state['events'] = [
+            {"name": "Beach Cleanup", "activity": "Cleaning", "date": "2024-04-22", "location": "Santa Monica Beach"},
+            {"name": "Tree Planting", "activity": "Planting", "date": "2024-05-05", "location": "Central Park"},
+        ]
+
+    tab1, tab2 = st.tabs(["Create Event", "Participate"])
+
+    with tab1:
+        st.header("Create a New Environmental Event")
+        event_name = st.text_input("Event Name")
+        activity_type = st.selectbox("Activity Type", ["Cleaning", "Planting", "Recycling"])
+        event_date = st.date_input("Date")
+        event_location = st.text_input("Location")
+        
+        if st.button("Create Event"):
+            # Add the new event to the session state
+            st.session_state['events'].append({
+                "name": event_name,
+                "activity": activity_type,
+                "date": event_date.strftime("%Y-%m-%d"),  # Format the date as a string
+                "location": event_location,
+            })
+            st.success(f"Event '{event_name}' created successfully!")
+
+    with tab2:
+        st.header("Volunteer for an Event")
+        if st.session_state['events']:
+            # Display existing events
+            for event in st.session_state['events']:
+                st.markdown(f"**{event['name']}**")
+                st.markdown(f"- Activity: {event['activity']}")
+                st.markdown(f"- Date: {event['date']}")
+                st.markdown(f"- Location: {event['location']}")
+                if st.button(f"Join {event['name']}", key=event['name']):
+                    st.success(f"Thanks for joining {event['name']}! Further details will be sent to your email.")
+        else:
+            st.write("No events available at the moment. Consider creating one!")
+
 def main_app():
     """Display the main application after successful login."""
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", ["Home", "Environmental Impact Dashboard", "Carbon Footprint Calculator", "Contributions Page"])
+    page = st.sidebar.selectbox("Go to", ["Home", "Carbon Footprint Calculator", "Contributions Page"])
     
     if page == "Home":
-        st.title(f"Welcome to Vireo, {(st.session_state['username'][0]).upper()}{st.session_state['username'][1:]}!")
+        st.title(f"Welcome to Vireo, {st.session_state['username']}!")
         st.write("Select a location to see environmental data.")
 
         # Dropdown for selecting a location
@@ -133,7 +178,8 @@ def main_app():
             st.write(data)
     elif page == "Carbon Footprint Calculator":
         carbon_footprint_calculator()
-    # Additional pages would go here...
+    elif page == "Contributions Page":
+        contributions_page()
 
 def main():
     """Main function to manage app flow based on login status."""
