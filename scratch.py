@@ -150,7 +150,7 @@ def contributions_page():
             st.write("No events available at the moment. Consider creating one!")
 
 def home_page():
-    st.title(f"Welcome to Vireo, {st.session_state['username']}!")
+    st.title(f"Welcome to Vireo, {st.session_state['username'][0]}{st.session_state['username'][1:]}!")
     st.write("Select a location to see environmental data.")
 
     # Dropdown for selecting a location
