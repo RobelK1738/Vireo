@@ -149,34 +149,34 @@ def contributions_page():
         else:
             st.write("No events available at the moment. Consider creating one!")
 
+def home_page():
+    st.title(f"Welcome to Vireo, {st.session_state['username']}!")
+    st.write("Select a location to see environmental data.")
+
+    # Dropdown for selecting a location
+    location = st.selectbox("Select a location:", list(sample_locations.keys()))
+
+    # Display map centered on the selected location
+    loc_data = sample_locations[location]
+    view_state = pdk.ViewState(latitude=loc_data["lat"], longitude=loc_data["lon"], zoom=10)
+    map = pdk.Deck(
+        map_style="mapbox://styles/mapbox/light-v9",
+        initial_view_state=view_state,
+        layers=[],
+    )
+    st.pydeck_chart(map)
+
+    # Button to fetch data for the selected location
+    if st.button('Show Environmental Data'):
+        data = fetch_environmental_data(loc_data["lat"], loc_data["lon"])
+        st.write(data)
+
 def main_app():
     """Display the main application after successful login."""
-    st.sidebar.title("Navigation")
-    # page = st.sidebar.radio("Go to", ["Home", "Environmental Impact Dashboard", "Carbon Footprint Calculator", "Contributions Page"])
     home, tab2, tab3 = st.tabs(["Home", "Carbon Footprint Calculator", "Contributions Page"])
 
-
     with home:
-        st.title(f"Welcome to Vireo, {(st.session_state['username'][0]).upper()}{st.session_state['username'][1:]}!")
-        st.write("Select a location to see environmental data.")
-
-        # Dropdown for selecting a location
-        location = st.selectbox("Select a location:", list(sample_locations.keys()))
-
-        # Display map centered on the selected location
-        loc_data = sample_locations[location]
-        view_state = pdk.ViewState(latitude=loc_data["lat"], longitude=loc_data["lon"], zoom=10)
-        map = pdk.Deck(
-            map_style="mapbox://styles/mapbox/light-v9",
-            initial_view_state=view_state,
-            layers=[],
-        )
-        st.pydeck_chart(map)
-
-        # Button to fetch data for the selected location
-        if st.button('Show Environmental Data'):
-            data = fetch_environmental_data(loc_data["lat"], loc_data["lon"])
-            st.write(data)
+        home_page()
     with tab2:
         carbon_footprint_calculator()
     with tab3:
